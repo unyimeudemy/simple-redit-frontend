@@ -1,56 +1,139 @@
 import {
-  Link as ChakraLink,
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  IconButton,
+  Stack,
   Text,
-  Code,
-  List,
-  ListIcon,
-  ListItem,
-} from '@chakra-ui/react'
-import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
+} from "@chakra-ui/react";
+import { NavBar } from "../components/NavBar";
+import { withUrqlClient } from "next-urql";
+import { createUrqlClient } from "../utils/createUrqlClient";
+import {
+  useDeletePostMutation,
+  usePostsQuery,
+  useVoteMutation,
+} from "../generated/graphql";
+import { Layout } from "../components/Layout";
+import Link from "next/link";
+import { useState } from "react";
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  DeleteIcon,
+  EditIcon,
+  SearchIcon,
+} from "@chakra-ui/icons";
+import NextLink from "next/link";
+import EditDeleteCreatorPostButtons from "../components/EditDeleteCreatorPostButtons";
 
-import { Hero } from '../components/Hero'
-import { Container } from '../components/Container'
-import { Main } from '../components/Main'
-import { DarkModeSwitch } from '../components/DarkModeSwitch'
-import { CTA } from '../components/CTA'
-import { Footer } from '../components/Footer'
+const Index = () => {
+  const [, vote] = useVoteMutation();
+  const [variables, setVariables] = useState({
+    limit: 10,
+    cursor: null as string | null | undefined,
+  });
+  const [{ data, fetching }] = usePostsQuery({ variables });
 
-const Index = () => (
-  <Container height="100vh">
-    <Hero />
-    <Main>
-      <Text color="text">
-        Example repository of <Code>Next.js</Code> + <Code>chakra-ui</Code> +{' '}
-        <Code>TypeScript</Code>.
-      </Text>
+  const [, deletePost] = useDeletePostMutation();
 
-      <List spacing={3} my={0} color="text">
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink
-            isExternal
-            href="https://chakra-ui.com"
-            flexGrow={1}
-            mr={2}
-          >
-            Chakra UI <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink isExternal href="https://nextjs.org" flexGrow={1} mr={2}>
-            Next.js <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-      </List>
-    </Main>
+  if (!data && !fetching) {
+    return <div>404 page not found</div>;
+  }
 
-    <DarkModeSwitch />
-    <Footer>
-      <Text>Next ❤️ Chakra</Text>
-    </Footer>
-    <CTA />
-  </Container>
-)
+  return (
+    <Layout>
+      <Box>
+        <Flex justifyContent={"space-between"} marginBottom="10px">
+          <Heading>Recent Post</Heading>
+        </Flex>
+        <Stack spacing={8} direction="column">
+          {fetching && !data ? (
+            <div>loading..</div>
+          ) : (
+            data?.posts.map((post) =>
+              !post ? null : (
+                <Flex key={post._id} p={5} shadow="md" borderWidth="1px">
+                  <Flex
+                    flexDirection={"column"}
+                    justifyContent={"space-between"}
+                    mr="10px"
+                    gap={"10px"}
+                    alignItems={"center"}
+                    justifyItems={"center"}
+                  >
+                    <IconButton
+                      onClick={() => {
+                        console.log("upvote status: ", post.voteStatus);
+                        if (post.voteStatus == 1) {
+                          return null;
+                        }
+                        vote({
+                          postID: post._id,
+                          value: 1,
+                          userID: 1,
+                        });
+                      }}
+                      colorScheme={post.voteStatus ? "green" : undefined}
+                      icon={<ChevronUpIcon />}
+                      aria-label="upvote"
+                    />
+                    <Text>{post.points}</Text>
+                    <IconButton
+                      colorScheme={post.voteStatus ? "red" : undefined}
+                      icon={<ChevronDownIcon />}
+                      aria-label="downvote"
+                      onClick={async () => {
+                        console.log("downvote status: ", post.voteStatus);
+                        if (post.voteStatus == -1) {
+                          return null;
+                        }
+                        await vote({
+                          postID: post._id,
+                          value: -1,
+                          userID: 1,
+                        });
+                      }}
+                    />
+                  </Flex>
+                  <Box>
+                    <Flex justifyContent={"space-between"}>
+                      <NextLink href={"/post[id]"} as={`/post/${post._id}`}>
+                        <Heading fontSize="xl">{post.title}</Heading>
+                      </NextLink>
+                    </Flex>
+                    <Text mt={4}>{post.textSnippet}</Text>
+                  </Box>
+                  <EditDeleteCreatorPostButtons
+                    postID={post._id}
+                    username={post.creator?.username}
+                  />
+                </Flex>
+              )
+            )
+          )}
+        </Stack>
+        {data ? (
+          <Flex justifyContent={"center"}>
+            <Button
+              onClick={() => {
+                setVariables({
+                  limit: variables.limit,
+                  cursor: data.posts[data.posts.length - 1].createdAt,
+                });
+              }}
+              isLoading={fetching}
+              mt="30px"
+            >
+              Load more
+            </Button>
+          </Flex>
+        ) : null}
+      </Box>
+    </Layout>
+  );
+};
 
-export default Index
+export default withUrqlClient(createUrqlClient, { ssr: true })(Index);
