@@ -27,7 +27,6 @@ import {
   SearchIcon,
 } from "@chakra-ui/icons";
 import NextLink from "next/link";
-import EditDeleteCreatorPostButtons from "../components/EditDeleteCreatorPostButtons";
 
 const Index = () => {
   const [, vote] = useVoteMutation();
@@ -37,8 +36,9 @@ const Index = () => {
     cursor: "",
   });
   const [{ data, fetching }] = usePostsQuery({ variables });
-
   const [, deletePost] = useDeletePostMutation();
+
+  //   const [, deletePost] = useDeletePostMutation();
 
   if (!data && !fetching) {
     return <div>404 page not found</div>;
@@ -107,10 +107,39 @@ const Index = () => {
                     </Flex>
                     <Text mt={4}>{post.textSnippet}</Text>
                   </Box>
-                  <EditDeleteCreatorPostButtons
+                  {/* <EditDeleteCreatorPostButtons
                     postID={post._id}
                     username={post.creator?.username}
-                  />
+                  /> */}
+                  <Flex
+                    flexDirection={"column"}
+                    gap={"10px"}
+                    alignItems={"center"}
+                    ml={"auto"}
+                  >
+                    <Text fontSize={"smaller"}>{post.creator?.username}</Text>
+
+                    <Box>
+                      <NextLink
+                        href={"/post/edit/[id]"}
+                        as={`/post/edit/${post._id}`}
+                      >
+                        <IconButton
+                          //   as={Link}
+                          aria-label="edit-button"
+                          marginRight={"10px"}
+                          icon={<EditIcon />}
+                        />
+                      </NextLink>
+                      <IconButton
+                        aria-label="delete-button"
+                        icon={<DeleteIcon />}
+                        onClick={() => {
+                          deletePost({ id: post._id });
+                        }}
+                      />
+                    </Box>
+                  </Flex>
                 </Flex>
               )
             )
