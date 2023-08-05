@@ -22,7 +22,7 @@ const documents = {
     "mutation ForgotPassword($email: String!) {\n  forgotPassword(email: $email)\n}": types.ForgotPasswordDocument,
     "mutation Login($usernameOrEmail: String!, $password: String!) {\n  login(usernameOrEmail: $usernameOrEmail, password: $password) {\n    ...RegularUserResponse\n  }\n}": types.LoginDocument,
     "mutation Logout {\n  logout\n}": types.LogoutDocument,
-    "query Me {\n  me {\n    ...UserFragment\n  }\n}": types.MeDocument,
+    "query Me {\n  me {\n    _id\n    username\n  }\n}": types.MeDocument,
     "mutation Register($username: String!, $password: String!, $email: String!) {\n  register(options: {username: $username, password: $password, email: $email}) {\n    ...RegularUserResponse\n  }\n}": types.RegisterDocument,
     "mutation UpdatePost($id: Int, $title: String, $text: String) {\n  updatePost(id: $id, title: $title, text: $text) {\n    _id\n    title\n    text\n    textSnippet\n  }\n}": types.UpdatePostDocument,
     "mutation Vote($userID: Int, $postID: Int!, $value: Int!) {\n  vote(userID: $userID, postID: $postID, value: $value)\n}": types.VoteDocument,
@@ -83,7 +83,7 @@ export function graphql(source: "mutation Logout {\n  logout\n}"): (typeof docum
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query Me {\n  me {\n    ...UserFragment\n  }\n}"): (typeof documents)["query Me {\n  me {\n    ...UserFragment\n  }\n}"];
+export function graphql(source: "query Me {\n  me {\n    _id\n    username\n  }\n}"): (typeof documents)["query Me {\n  me {\n    _id\n    username\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
