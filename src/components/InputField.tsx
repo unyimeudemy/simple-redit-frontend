@@ -4,6 +4,8 @@ import {
   Input,
   FormErrorMessage,
   Textarea,
+  InputProps,
+  ComponentWithAs,
 } from "@chakra-ui/react";
 import { useField } from "formik";
 import React from "react";
@@ -24,7 +26,7 @@ export const InputField: React.FC<InputFieldProps> = ({
 
   let InputOrTextarea = Input;
   if (textarea) {
-    InputOrTextarea = Textarea;
+    InputOrTextarea = Textarea as ComponentWithAs<"input", InputProps>;
   }
 
   return (
