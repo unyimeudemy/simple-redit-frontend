@@ -34,7 +34,6 @@ const Index = () => {
   const [variables, setVariables] = useState({
     limit: 10,
     // cursor: null as string | null,
-    // cursor: "1673904460000",
     cursor: "",
   });
   const [{ data, fetching }] = usePostsQuery({ variables });
