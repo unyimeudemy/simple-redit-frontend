@@ -22,7 +22,6 @@ export const Login: React.FC<{}> = ({}) => {
             const res = await login(values);
             if (res.data?.login.errors) {
               setErrors(toErrorMap(res.data?.login.errors));
-              console.log(toErrorMap(res.data?.login.errors));
             } else if (res.data?.login.user) {
               // redirect to the landing page
               if (typeof router.query.next === "string") {

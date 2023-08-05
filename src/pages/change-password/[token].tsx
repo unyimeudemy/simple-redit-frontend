@@ -16,7 +16,6 @@ import NextLink from "next/link";
 const ChangePassword: NextPage = () => {
   const router = useRouter();
   const [{}, changePassword] = useChangePasswordMutation();
-  console.log(router.query);
 
   return (
     <Wrapper variant="small">
@@ -33,7 +32,6 @@ const ChangePassword: NextPage = () => {
             });
             if (res.data?.changePassword.errors) {
               setErrors(toErrorMap(res.data?.changePassword.errors));
-              console.log(toErrorMap(res.data?.changePassword.errors));
             } else if (res.data?.changePassword.user) {
               //   redirect to the landing page
               router.push("/");

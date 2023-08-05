@@ -30,7 +30,6 @@ export const Register: React.FC<RegisterProps> = ({}) => {
             const res = await register(values);
             if (res.data?.register.errors) {
               setErrors(toErrorMap(res.data?.register.errors));
-              console.log(toErrorMap(res.data?.register.errors));
             } else if (res.data?.register.user) {
               // redirect to the landing page
               router.push("/");

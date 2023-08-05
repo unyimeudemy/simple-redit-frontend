@@ -21,8 +21,6 @@ export const InputField: React.FC<InputFieldProps> = ({
   ...props
 }) => {
   const [field, { error }] = useField(props);
-  //   console.log(props);
-  //   console.log(field);
 
   let InputOrTextarea = Input;
   if (textarea) {

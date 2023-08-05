@@ -10,7 +10,6 @@ import { Flex } from "@chakra-ui/react";
 
 const Post = ({}) => {
   const router = useRouter();
-  console.log("", router.query);
   const intId =
     typeof router.query.id == "string" ? parseInt(router.query.id) : -1;
   const [{ data, fetching }] = usePostQuery({
@@ -18,7 +17,6 @@ const Post = ({}) => {
       id: intId,
     },
   });
-  console.log(data);
 
   if (fetching) {
     return (

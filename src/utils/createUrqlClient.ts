@@ -66,7 +66,6 @@ const cursorPagination = (): Resolver => {
 export const createUrqlClient = (ssrExchange: any, ctx: any) => {
   let cookie = "";
   if (isServer()) {
-    console.log("ctx: ", ctx);
     // cookie = ctx.req.headers.cookie;
   }
 
@@ -136,7 +135,6 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
               invalidateAllPost(cache);
             },
             login: (_result, args, cache, info) => {
-              // console.log("createee post: ", cache);
               betterUpdateQuery<LoginMutation, MeQuery>(
                 cache,
                 {
