@@ -1,8 +1,18 @@
 fragment RegularUserResponse on UserResponse {
   errors {
-    ...ErrorFragment
+    field
+    message
   }
   user {
-    ...UserFragment
+    _id
+    username
   }
 }
+# fragment RegularUserResponse on UserResponse {
+#   errors {
+#     ...ErrorFragment
+#   }
+#   user {
+#     ...UserFragment
+#   }
+# }

@@ -1,8 +1,20 @@
 mutation Login($usernameOrEmail: String!, $password: String!) {
   login(usernameOrEmail: $usernameOrEmail, password: $password) {
-    ...RegularUserResponse
+    errors {
+      field
+      message
+    }
+    user {
+      _id
+      username
+    }
   }
 }
+# mutation Login($usernameOrEmail: String!, $password: String!) {
+#   login(usernameOrEmail: $usernameOrEmail, password: $password) {
+#     ...RegularUserResponse
+#   }
+# }
 
 # mutation Login($username: String, $password: String) {
 #   login(options: { username: $username, password: $password }) {

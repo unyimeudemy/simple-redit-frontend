@@ -2,9 +2,23 @@ mutation Register($username: String!, $password: String!, $email: String!) {
   register(
     options: { username: $username, password: $password, email: $email }
   ) {
-    ...RegularUserResponse
+    errors {
+      field
+      message
+    }
+    user {
+      _id
+      username
+    }
   }
 }
+# mutation Register($username: String!, $password: String!, $email: String!) {
+#   register(
+#     options: { username: $username, password: $password, email: $email }
+#   ) {
+#     ...RegularUserResponse
+#   }
+# }
 
 # mutation Register($username: String, $password: String) {
 #   register(options: { username: $username, password: $password }) {
