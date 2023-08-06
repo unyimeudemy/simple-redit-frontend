@@ -40,9 +40,9 @@ const Index = () => {
 
   //   const [, deletePost] = useDeletePostMutation();
 
-  if (!data && !fetching) {
-    return <div>404 page not found</div>;
-  }
+  //   if (!data && !fetching) {
+  //     return <div>404 page not found</div>;
+  //   }
 
   return (
     <Layout>
