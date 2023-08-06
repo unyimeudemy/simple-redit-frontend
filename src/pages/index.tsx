@@ -38,8 +38,6 @@ const Index = () => {
   const [{ data, fetching }] = usePostsQuery({ variables });
   const [, deletePost] = useDeletePostMutation();
 
-  //   const [, deletePost] = useDeletePostMutation();
-
   //   if (!data && !fetching) {
   //     return <div>404 page not found</div>;
   //   }
