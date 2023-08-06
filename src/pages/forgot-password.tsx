@@ -3,12 +3,8 @@ import React, { useState } from "react";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { Button, Box } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
-import Link from "next/link";
-import router from "next/router";
 import { InputField } from "../components/InputField";
 import { Wrapper } from "../components/Wrapper";
-import { toErrorMap } from "../utils/toErrorMap";
-import login from "./login";
 import { useForgotPasswordMutation } from "../generated/graphql";
 
 const ForgotPassword: React.FC<{}> = ({}) => {
@@ -53,3 +49,4 @@ const ForgotPassword: React.FC<{}> = ({}) => {
 };
 
 export default withUrqlClient(createUrqlClient)(ForgotPassword);
+// commit should work
