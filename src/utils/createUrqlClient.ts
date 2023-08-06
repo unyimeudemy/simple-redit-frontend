@@ -62,6 +62,7 @@ const cursorPagination = (): Resolver => {
 };
 
 //********************************************************************************** */
+// this is tricker deploymnet
 
 export const createUrqlClient = (ssrExchange: any, ctx: any) => {
   let cookie = "";
