@@ -9,7 +9,6 @@ import { toErrorMap } from "../../utils/toErrorMap";
 import { useChangePasswordMutation } from "../../generated/graphql";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
-// import Link from "next/link";
 import NextLink from "next/link";
 
 //
