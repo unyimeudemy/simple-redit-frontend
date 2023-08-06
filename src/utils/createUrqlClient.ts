@@ -76,7 +76,8 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
   }
 
   return {
-    url: "http://localhost:4000/graphql",
+    // url: "http://localhost:4000/graphql",
+    url: "https://redit-clone-backend-7bps.onrender.com",
     fetchOptions: {
       credentials: "include" as const,
       headers: cookie ? { cookie } : undefined,
