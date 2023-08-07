@@ -36,6 +36,7 @@ const Index = () => {
     cursor: "",
   });
   const [{ data, fetching }] = usePostsQuery({ variables });
+  console.log("data: ", data);
   const [, deletePost] = useDeletePostMutation();
 
   //   if (!data && !fetching) {
